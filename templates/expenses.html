@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/expenses.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Expenses</h1>
+
+            <nav>
+                <form action="{{ url_for('logout') }}" method="GET">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </nav>
+        </header>
+        <!-- Category dropdown menu -->
+        <form action="{{ url_for('display_expenses') }}" method="GET">
+            <label for="category">Filter by Category:</label>
+            <select name="category" id="category">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Apply Filter</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense['amount'] }}</td>
+                    <td>{{ expense['category'] }}</td>
+                    <td>{{ expense['description'] }}</td>
+                    <td>
+                        <!-- Changed "Edit" link to a button -->
+                        <form action="{{ url_for('edit_expense', expense_id=expense['_id']) }}" method="get"
+                            style="display: inline;">
+                            <button type="submit">Edit</button>
+                        </form>
+                        |
+                        <form action="{{ url_for('delete_expense', expense_id=expense['_id']) }}" method="post"
+                            style="display: inline;">
+                            <button type="submit"
+                                onclick="return confirm('Are you sure you want to delete this expense?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Button to go back to the dashboard -->
+        <a href="{{ url_for('dashboard') }}" class="btn-back-dashboard">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

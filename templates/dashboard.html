@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Expense Dashboard</h1>
+
+            <nav>
+                <!-- Logout button -->
+                <form action="{{ url_for('logout') }}" method="post">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </nav>
+        </header>
+
+        <section class="expense-form">
+            <h2>Add New Expense</h2>
+            <form action="{{ url_for('save_transaction') }}" method="post">
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="text" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <input type="text" id="category" name="category" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+                </div>
+                <button type="submit">Save Expense</button>
+            </form>
+        </section>
+
+        <!-- Button to navigate to expenses page -->
+        <a href="{{ url_for('display_expenses') }}" class="btn-view-expenses">View Expenses</a>
+    </div>
+</body>
+
+</html>

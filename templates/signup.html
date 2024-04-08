@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/signup.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#signup-form').submit(function (event) {
+                event.preventDefault();  // Prevent form submission
+                var formData = $(this).serialize();  // Serialize form data
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup',
+                    data: formData,
+                    success: function (response) {
+                        alert('Signup successful!');
+                        // Redirect to login page or any other page on success if needed
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = xhr.responseJSON['Error'];  // Get error message from response
+                        alert(errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" action="/signup" method="post">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+
+        <!-- Alert message container -->
+        <div id="alert-container"></div>
+    </div>
+</body>
+
+</html>
